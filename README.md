@@ -1,9 +1,9 @@
 rf24Things: Android Things Project
 =====================================
 
-This project enable to use the rf24l01+ modules with Android Things. In this project the classes RF24, RF24Network and RF24Mesh (developed by <a href="http://tmrh20.github.io/">TMRH20</a> and href="https://github.com/maniacbug" target="_blank">maniacbug</a>) were re-implemented in Java.
+This project enables to use the rf24l01+ modules with Android Things. In this project the classes RF24, RF24Network and RF24Mesh (developed by <a href="http://tmrh20.github.io/">TMRH20</a> and href="https://github.com/maniacbug" target="_blank">maniacbug</a>) were re-implemented in Java.
 
-Please refers to https://goo.gl/XsRJtI for more information.
+Please refer to https://goo.gl/XsRJtI for more information.
 
 Pre-requisites
 --------------
