@@ -16,7 +16,7 @@ ebay
 
 
 Build and install
-=================
+--------------------
 
 On Android Studio, click on the "Run" button.
 
