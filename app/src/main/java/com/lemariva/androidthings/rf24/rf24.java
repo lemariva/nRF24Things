@@ -310,7 +310,6 @@ public class rf24 implements AutoCloseable {
         return (setup != 0 && setup != 0xff);
     }
 
-
     /**
      * Start listening on the pipes opened for reading.
      *
@@ -1286,6 +1285,20 @@ public class rf24 implements AutoCloseable {
     }
 
 
+
+    /**
+     * Checks if the chip is connected to the SPI bus
+     * @return true if chip is connected, false if not
+     */
+    public boolean isChipConnected() throws IOException {
+        short setup = read_register(nRF24L01.SETUP_AW);
+        if (setup >= 1 && setup <= 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public int isConnected() throws IOException
     {
         short aw;
@@ -1498,13 +1511,15 @@ public class rf24 implements AutoCloseable {
         // Disables dynamic payload throughout the system.  Also disables Ack Payloads
 
         //toggle_features();
-        write_register(nRF24L01.FEATURE, read_register(nRF24L01.FEATURE) & ~(_BV(nRF24L01.EN_DPL) | _BV(nRF24L01.EN_ACK_PAY)));
+        //write_register(nRF24L01.FEATURE, read_register(nRF24L01.FEATURE) & ~(_BV(nRF24L01.EN_DPL) | _BV(nRF24L01.EN_ACK_PAY)));
+        write_register(nRF24L01.FEATURE, 0);
         //if(debug) Log.i(TAG, "FEATURE=%i\r\n", read_register(nRF24L01.FEATURE));
 
         // Disable dynamic payload on all pipes
         // Not sure the use case of only having dynamic payload on certain
         // pipes, so the library does not support it.
-        write_register(nRF24L01.DYNPD, read_register(nRF24L01.DYNPD) & ~(_BV(nRF24L01.DPL_P5) | _BV(nRF24L01.DPL_P4) | _BV(nRF24L01.DPL_P3) | _BV(nRF24L01.DPL_P2) | _BV(nRF24L01.DPL_P1) | _BV(nRF24L01.DPL_P0)));
+        //write_register(nRF24L01.DYNPD, read_register(nRF24L01.DYNPD) & ~(_BV(nRF24L01.DPL_P5) | _BV(nRF24L01.DPL_P4) | _BV(nRF24L01.DPL_P3) | _BV(nRF24L01.DPL_P2) | _BV(nRF24L01.DPL_P1) | _BV(nRF24L01.DPL_P0)));
+        write_register(nRF24L01.DYNPD, 0);
         dynamic_payloads_enabled = false;
     }
     
@@ -2107,7 +2122,7 @@ public class rf24 implements AutoCloseable {
      * @return Current value of status register
      * @throws IOException when write / read on spi doesn't work
      */
-    private byte flush_rx() throws IOException {
+    public byte flush_rx() throws IOException {
         return spiTrans((byte) nRF24L01.FLUSH_RX);
     }
 

@@ -98,7 +98,7 @@ public class MainActivity extends Activity {
 
         try {
 
-            radio = new rf24((byte) 0, (byte) 1, 16000000);
+            radio = new rf24((byte) 0, (byte) 1, 12000000);
             network = new rf24Network(radio);
             mesh = new rf24Mesh(radio, network, this);
 
@@ -230,8 +230,11 @@ public class MainActivity extends Activity {
         Log.i(TAG,"Processing info node -> handle\n\r");
 
         Log.i(TAG, "Status from sensor node("+payload_data.nodeId+") G = "+Integer.toString(payload_data.cStatus)+" size "+ Integer.toString(payload_data.sizeOf()));
-        Log.i(TAG, "nodeId:"+  Integer.toString(payload_data.nodeId));
+        Log.i(TAG, "nodeId:"+  payload_data.nodeId);
         Log.i(TAG, "power:"+  payload_data.power);
+        Log.i(TAG, "temperature:"+  payload_data.temperature);
+        Log.i(TAG, "humidity:"+  payload_data.humidity);
+        Log.i(TAG, "info:"+  payload_data.info[0] +  payload_data.info[1] +  payload_data.info[2]);
 
         Log.i(TAG,"-------------");
     }
@@ -367,18 +370,18 @@ public class MainActivity extends Activity {
          * int         nodeid          4
          * byte        cStatus         1
          * byte[3]     HardwareID      3
-         * float       temperature     4
-         * byte        power           1
+         * int         temperature     2
+         * int         power           2
          * byte        humidity        1
          * byte        airQuality      1
          * byte        lux             1
          * byte        errorCount      1
          * byte[3]     info            3
          *                          ========
-         *                             20
+         *                             19
          */
 
-        private static final int PAYLOAD_SIZE = 20;
+        private static final int PAYLOAD_SIZE = 19;
 
         int nodeId;
         /**
@@ -389,8 +392,8 @@ public class MainActivity extends Activity {
          * Hardware unique ID
          */
         int[] HardwareID = new int[3];
-        float temperature;
-        byte power;
+        int temperature;
+        int power;
         byte humidity;
         byte airQuality;
         byte lux;
@@ -403,17 +406,24 @@ public class MainActivity extends Activity {
         }
 
         public void CastMsg(int[] msg) {
-            nodeId = ((msg[3] << 32) + (msg[2] << 16) + (msg[1] << 8) + msg[0]);
-            cStatus = (byte) (msg[4]);
+            nodeId = (((msg[3] & 0xFF) << 24) + ((msg[2] & 0xFF) << 16) + ((msg[1] & 0xFF) << 8) + (msg[0] & 0xFF));
+            cStatus = (byte) (msg[4] & 0xFF);
             System.arraycopy(msg, 5, HardwareID, 0, 3);
-            temperature = (float) ((msg[11] << 32) + (msg[10] << 16) + (msg[9] << 8) + msg[8]);
-            power = (byte) msg[12];
-            humidity = (byte) msg[13];
-            airQuality = (byte) msg[14];
-            lux = (byte) msg[15];
-            errorCount = (byte) msg[16];
-            System.arraycopy(msg, 17, info, 0, 3);
+            temperature = ((msg[9] & 0xFF) << 8) + (msg[8] & 0xFF);
+            power = ((msg[11] & 0xFF) << 8) + (msg[10] & 0xFF);
+            humidity = (byte) msg[12];
+            airQuality = (byte) msg[13];
+            lux = (byte) msg[14];
+            errorCount = (byte) msg[15];
+            System.arraycopy(msg, 16, info, 0, 3);
         }
+
+
+        public int unsignedToBytes(byte b, int position) {
+            int ret = (b & 0xFF) << position;
+            return ret;
+        }
+
 
         public int[] toInt() {
             //TODO: serialize the payload and return it
