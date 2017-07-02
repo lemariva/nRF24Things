@@ -1,10 +1,3 @@
-
-package com.lemariva.androidthings.rf24;
-
-import com.google.android.things.pio.PeripheralManagerService;
-import android.os.Build;
-import java.util.List;
-
 /**
  * Copyright [2017] [Mauro Riva <lemariva@mail.com> <lemariva.com>]
  *
@@ -24,6 +17,12 @@ import java.util.List;
  * included in all copies or substantial portions of the Software.
  *
  */
+
+package com.lemariva.androidthings.rf24;
+
+import com.google.android.things.pio.PeripheralManagerService;
+import android.os.Build;
+import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
 

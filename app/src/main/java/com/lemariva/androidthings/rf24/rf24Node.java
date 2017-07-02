@@ -1,5 +1,3 @@
-package com.lemariva.androidthings.rf24;
-
 /**
  * Copyright [2017] [Mauro Riva <lemariva@mail.com> <lemariva.com>]
  *
@@ -20,14 +18,12 @@ package com.lemariva.androidthings.rf24;
  *
  * @author Mauro Riva (lemariva.com)
  * @version 0.1 beta
- * @since 27.12.2016
  */
 
+
+package com.lemariva.androidthings.rf24;
+
 public class rf24Node {
-    /**
-     *  Node table id
-     */
-    private int ID;
     /**
      *  Node unique id
      */
@@ -40,7 +36,7 @@ public class rf24Node {
     /**
      *  Node type
      */
-    private String type;
+    private short type;
 
     /**
      *  Node name
@@ -62,27 +58,23 @@ public class rf24Node {
      */
     private String topic;
 
+    /**
+     * Node payload
+     */
+    public rf24NodePayload payload;
+
+
     public rf24Node() {
-        this.ID = 0;
+        payload = new rf24NodePayload();
     };
 
-    public rf24Node(int ID, short nodeID, short address, String type, String name, String topic)
+    public rf24Node(short nodeID, short address, short type, String name, String topic)
     {
-        this.ID = ID;
         this.nodeID = nodeID;
         this.address = address;
         this.type = type;
         this.name = name;
         this.topic = topic;
-    }
-
-
-    public void setID(int ID){
-        this.ID = ID;
-    }
-
-    public int getID() {
-        return ID;
     }
 
     public short getNodeID() {
@@ -120,11 +112,11 @@ public class rf24Node {
         this.name = name;
     }
 
-    public String getType(){
+    public short getType(){
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(short type) {
         this.type = type;
     }
 

@@ -1,16 +1,3 @@
-package com.lemariva.androidthings.rf24;
-
-import android.util.Log;
-
-import java.io.IOException;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Arrays;
-
-
 /*
  Copyright (C) 2011 J. Coliz <maniacbug@ymail.com>
  This program is free software; you can redistribute it and/or
@@ -48,6 +35,18 @@ import java.util.Arrays;
  *
  * This library can be used with Android Things on a RPIv3
  */
+
+package com.lemariva.androidthings.rf24;
+
+import android.util.Log;
+
+import java.io.IOException;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Arrays;
 
 class rf24Network {
 

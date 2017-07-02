@@ -1,16 +1,3 @@
-package com.lemariva.androidthings.rf24;
-
-import java.sql.Date;
-import java.util.ArrayList;
-
-import android.icu.text.SimpleDateFormat;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 /**
  * Copyright [2017] [Mauro Riva <lemariva@mail.com> <lemariva.com>]
  *
@@ -31,6 +18,19 @@ import android.widget.TextView;
  *
  */
 
+package com.lemariva.androidthings.rf24;
+
+import java.sql.Date;
+import java.util.ArrayList;
+
+import android.icu.text.SimpleDateFormat;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private ArrayList<rf24Node> values;
 
@@ -42,6 +42,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView txtHeader;
         public TextView txtAddress;
         public TextView txtAddressRelease;
+        public TextView txtPayload;
+        public TextView txtPayloadUpdate;
         public View layout;
 
         public ViewHolder(View v) {
@@ -50,6 +52,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             txtHeader = (TextView) v.findViewById(R.id.nodeID);
             txtAddress = (TextView) v.findViewById(R.id.nodeAddress);
             txtAddressRelease = (TextView) v.findViewById(R.id.nodeAddressRelease);
+            txtPayload = (TextView) v.findViewById(R.id.payloadData);
+            txtPayloadUpdate = (TextView) v.findViewById(R.id.payloadUpdate);
         }
     }
 
@@ -90,10 +94,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final String nodeID = "Node ID: " + Integer.toOctalString(values.get(position).getNodeID());
-        final String nodeAddress = "Address: " + values.get(position).getAddress();
+        final String nodeAddress = "Addr.: " + values.get(position).getAddress();
 
-        Date resultdate = new Date( values.get(position).getReleaseTimeAddr());
-        final String dateRelease = "Address released on: " + sdf.format(resultdate);
+        Date addrReleaseDate = new Date( values.get(position).getReleaseTimeAddr());
+        final String dateRelease = "Addr. released on: " + sdf.format(addrReleaseDate);
 
         holder.txtHeader.setText(nodeID);
         holder.txtHeader.setOnClickListener(new OnClickListener() {
@@ -105,6 +109,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         holder.txtAddress.setText(nodeAddress);
         holder.txtAddressRelease.setText(dateRelease);
+
+        holder.txtPayload.setText(values.get(position).payload.getPayload());
+
+        Date payloadUpdateDate = new Date( values.get(position).payload.getUpdate());
+        holder.txtPayloadUpdate.setText("Updated on: " + sdf.format(payloadUpdateDate));
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

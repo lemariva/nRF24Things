@@ -126,12 +126,20 @@ public class rf24Mesh {
      * }
      * @param _radio The underlying radio driver instance
      * @param _network The underlying network instance
+     *
      */
     public rf24Mesh( rf24 _radio, rf24Network _network, Context context) {
         radio = _radio;
         network = _network;
 
         sqliteconn = new DatabaseHandler(context);
+    }
+
+    public rf24Mesh(rf24 _radio, rf24Network _network, DatabaseHandler sqliteconn) {
+        radio = _radio;
+        network = _network;
+
+        this.sqliteconn = sqliteconn;
     }
 
     /**
@@ -247,6 +255,15 @@ public class rf24Mesh {
         return type;
     }
 
+    /**
+     * Update the payloads of the node in rfNodes
+     */
+    void updatePayloads(){
+        for (int i = 0; i < rfNodes.size(); i++) {
+            rf24NodePayload tmp = sqliteconn.getNodePayload(rfNodes.get(i).getNodeID());
+            rfNodes.get(i).payload.setPayload(tmp.getPayload(),tmp.getUpdate());
+        }
+    }
 
     /**
      * Automatically construct a header and send a payload
