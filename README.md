@@ -49,7 +49,7 @@ More Info & Help
  
 Changelog
 -------------------
-* Revision: 0.1v
+* Revision: 0.2v
  
 Licenses
 --------------------
