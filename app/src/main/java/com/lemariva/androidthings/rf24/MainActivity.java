@@ -44,7 +44,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
-    private static final boolean debug = true;
+    private static final boolean debug = false;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 

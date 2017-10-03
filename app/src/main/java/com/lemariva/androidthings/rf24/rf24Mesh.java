@@ -201,7 +201,7 @@ public class rf24Mesh {
     /**
      * Very similar to network.update(), it needs to be called regularly to keep the network
      * and the mesh going.
-     * @see #network.update()
+     * @see rf24Network.update()
      * @throws IOException when write / read on spi doesn't work
      */
     public int update() throws IOException {
