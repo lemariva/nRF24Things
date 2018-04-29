@@ -4,7 +4,7 @@ package com.lemariva.androidthings.rf24;
 
 import com.google.android.things.pio.SpiDevice;
 import com.google.android.things.pio.Gpio;
-import com.google.android.things.pio.PeripheralManagerService;
+import com.google.android.things.pio.PeripheralManager;
 
 import java.io.IOException;
 import android.util.Log;
@@ -96,7 +96,7 @@ public class rf24 implements AutoCloseable {
      */
 
     /** PeripheralManagerService */
-    PeripheralManagerService pioService;
+    PeripheralManager pioService;
     /** SPI device */
     private SpiDevice mDevice;
     /** CE (GPIO 'device') */
@@ -188,7 +188,7 @@ public class rf24 implements AutoCloseable {
         pipe0_reading_address[0]=0;
 
         try {
-            pioService = new PeripheralManagerService();
+            pioService = PeripheralManager.getInstance();
         }catch(Exception e)
         {
             Log.e(TAG, "Unable to access PeripheralManagerService", e);
@@ -226,7 +226,7 @@ public class rf24 implements AutoCloseable {
 
             mDevice.setFrequency(spi_speed);     // _spi_speed MHz
             mDevice.setBitsPerWord(8);           // 8 BPW
-            mDevice.setBitJustification(false);  // MSB first
+            mDevice.setBitJustification(0);  // MSB first
 
         } catch (IOException e) {
             Log.w(TAG, "Unable to access SPI device", e);

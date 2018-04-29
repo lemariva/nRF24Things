@@ -20,7 +20,7 @@
 
 package com.lemariva.androidthings.rf24;
 
-import com.google.android.things.pio.PeripheralManagerService;
+import com.google.android.things.pio.PeripheralManager;
 import android.os.Build;
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class BoardDefaults {
      * Return the GPIO pin that CE pin is connected
      */
     public static String getGPIOce() {
-        switch (getBoardVariant())  {
+        switch (Build.DEVICE)  {
             case DEVICE_RPI3:
                 return "BCM22";
             default:
@@ -72,7 +72,7 @@ public class BoardDefaults {
      * Return the GPIO pin that CSN pin is connected
      */
     public static String getGPIOcsn() {
-        switch (getBoardVariant())  {
+        switch (Build.DEVICE)  {
             case DEVICE_RPI3:
                 return "BCM7";
             default:
@@ -80,23 +80,4 @@ public class BoardDefaults {
         }
     }
 
-    private static String getBoardVariant() {
-        if (!sBoardVariant.isEmpty()) {
-            return sBoardVariant;
-        }
-        sBoardVariant = Build.DEVICE;
-        // For the edison check the pin prefix
-        // to always return Edison Breakout pin name when applicable.
-        if (sBoardVariant.equals(DEVICE_EDISON)) {
-            PeripheralManagerService pioService = new PeripheralManagerService();
-            List<String> gpioList = pioService.getGpioList();
-            if (gpioList.size() != 0) {
-                String pin = gpioList.get(0);
-                if (pin.startsWith("IO")) {
-                    sBoardVariant = DEVICE_EDISON_ARDUINO;
-                }
-            }
-        }
-        return sBoardVariant;
-    }
 }
