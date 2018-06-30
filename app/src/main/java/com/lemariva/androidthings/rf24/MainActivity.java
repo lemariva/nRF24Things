@@ -101,6 +101,10 @@ public class MainActivity extends Activity {
             payload_sensordata_big payload_data_tm4c1294 = new payload_sensordata_big();
             payload_sensordata_small payload_data_g2553 = new payload_sensordata_small();
             payload_empty payload = new payload_empty();
+            payload_command payload_cmd = new payload_command();
+            rf24NetworkHeader header_cmd = new rf24NetworkHeader();
+
+            long displayTimer = 0;
 
             Handler handler = new Handler() {
                 @Override
@@ -189,6 +193,16 @@ public class MainActivity extends Activity {
                         });
 
                         delay(2);
+
+                        if (millis() - displayTimer >= 10000) {     // example to send data to a node from node 0
+                            displayTimer = millis();
+                            header_cmd.from_node = 0;               // my address (node 0)
+                            header_cmd.to_node  = 5;                // node address (destination)
+                            payload_cmd.nodeId  = 100;              // payload nodeId
+                            payload_cmd.command = 127;              // payload command
+                            payload_cmd.value = 50;                 // payload value
+                            boolean ok = network.write(header_cmd,payload_cmd.toInt(), (short)payload_cmd.sizeOf());
+                        }
 
                     } catch (IOException e) {
                         if(debug) Log.d(TAG, "Error on initializing radio", e);

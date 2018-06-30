@@ -220,33 +220,56 @@ class payload_sensordata_small implements rf24NetPayloads {
 
 class payload_command implements rf24NetPayloads{
     long nodeId;
-    byte[] command = new byte[10];
-    byte[] value = new byte[3];
+    long command;
+    long value;
+    //byte[] command = new byte[10];
+    //byte[] value = new byte[3];
 
     /**
-     * byte[10]     command    10
-     * byte[3]      value       3
+     * long         nodeID      4
+     * long         command     4
+     * long         value       4
      *                      ========
-     *                         13
+     *                         12
      */
-    private static final int PAYLOAD_SIZE = 13;
+    private static final int PAYLOAD_SIZE = 12;
 
     public int sizeOf() {
         return PAYLOAD_SIZE;
     }
 
     public void CastMsg(int[] msg) {
+        /*
         for(int jArray = 0; jArray < command.length; jArray++)
             command[jArray] = (byte) msg[jArray + 4];
 
         for(int jArray = 0; jArray < value.length; jArray++)
             value[jArray] = (byte) msg[jArray + 4 + command.length];
-
+        */
         nodeId = ((msg[3] << 32) + (msg[2] << 16) + (msg[1] << 8) + msg[0]);
+        command = ((msg[7] << 32) + (msg[6] << 16) + (msg[5] << 8) + msg[4]);
+        value = ((msg[11] << 32) + (msg[10] << 16) + (msg[9] << 8) + msg[8]);
     }
 
     public int[] toInt() {
         //TODO: serialize the payload and return it
-        return new int[PAYLOAD_SIZE];
+        int[] ret = new int[PAYLOAD_SIZE];
+
+        ret[0] = (int)(nodeId & 0xFFL);
+        ret[1] = (int)((nodeId << 8)  & 0xFFL);
+        ret[2] = (int)((nodeId << 16) & 0xFFL);
+        ret[3] = (int)((nodeId << 32) & 0xFFL);
+
+        ret[4] = (int)(command & 0xFFL);
+        ret[5] = (int)((command << 8)  & 0xFFL);
+        ret[6] = (int)((command << 16) & 0xFFL);
+        ret[7] = (int)((command << 32) & 0xFFL);
+
+        ret[8] = (int)(value & 0xFFL);
+        ret[9] = (int)((value << 8)  & 0xFFL);
+        ret[10] = (int)((value << 16) & 0xFFL);
+        ret[11] = (int)((value << 32) & 0xFFL);
+
+        return ret;
     }
 };

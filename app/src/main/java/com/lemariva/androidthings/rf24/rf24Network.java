@@ -55,7 +55,7 @@ class rf24Network {
     /**
      * Set debugging status!
      */
-    private static final boolean debug = false;
+    private static final boolean debug = true;
 
 
     /* Header types range */
