@@ -5,6 +5,12 @@ This project enables to use the rf24l01+ modules with Android Things. In this pr
 
 Please refer to https://goo.gl/XsRJtI for more information.
 
+:warning: 
+
+Android Things Dashboard shutdown will begin on January 5, 2021. After January 5, 2022, Android Things Dashboard will be shut down completely and all remaining data will be deleted.
+
+More information available here: [FAQ Android Things](https://developer.android.com/things/faq)
+
 Pre-requisites
 --------------
 
